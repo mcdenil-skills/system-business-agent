@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Скачать репозиторий
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Установить инструменты проверки
         run: sudo apt-get update && sudo apt-get install -y ripgrep
