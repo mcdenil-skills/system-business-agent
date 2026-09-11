@@ -1,0 +1,28 @@
+name: Проверка агента и скиллов
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Скачать репозиторий
+        uses: actions/checkout@v4
+
+      - name: Установить инструменты проверки
+        run: sudo apt-get update && sudo apt-get install -y ripgrep
+
+      - name: Проверить структуру агента
+        run: bash tests/test-system-business-template.sh
+
+      - name: Проверить скилл распаковки
+        run: bash tests/test-expertise-unpacking.sh
+
+      - name: Проверить установку в Claude и Codex
+        run: bash tests/test-expertise-installation.sh
