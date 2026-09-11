@@ -26,3 +26,9 @@ jobs:
 
       - name: Проверить установку в Claude и Codex
         run: bash tests/test-expertise-installation.sh
+
+      - name: Проверить скилл выбора продукта
+        run: bash tests/test-product-selection.sh
+
+      - name: Проверить установку скилла выбора продукта
+        run: bash tests/test-product-selection-installation.sh
