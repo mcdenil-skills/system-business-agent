@@ -26,6 +26,7 @@ INSTALLER="$AGENT/skills/installer/SKILL.md"
 [[ ! -e "$AGENT/.codex/skills/installer/SKILL.md" ]] || fail "source repository contains duplicate Codex installer"
 
 rg -q 'mcdenil-skills/system-business-agent' "$INSTALLER" || fail "wrong public repository"
+rg -q 'не копируй папки `skills/`, `tests/` и `\.github/`' "$AGENT/README.md" || fail "installation prompt does not exclude repository-only folders"
 rg -qi 'Распаковка профессиональной экспертности.*expertise-unpacking|expertise-unpacking.*Распаковка профессиональной экспертности' "$INSTALLER" || fail "missing expertise-unpacking alias"
 rg -q '\.claude/skills/<name>' "$INSTALLER" || fail "missing Claude destination"
 rg -q '\.codex/skills/<name>' "$INSTALLER" || fail "missing Codex destination"
