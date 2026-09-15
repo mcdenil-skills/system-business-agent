@@ -32,3 +32,6 @@ jobs:
 
       - name: Проверить установку скилла выбора продукта
         run: bash tests/test-product-selection-installation.sh
+
+      - name: Проверить упаковку продукта и локальную установку
+        run: bash tests/test-product-packaging.sh
