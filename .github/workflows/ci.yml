@@ -38,3 +38,6 @@ jobs:
 
       - name: Проверить установку сценариста коротких роликов
         run: bash tests/test-short-video-installation.sh
+
+      - name: Проверить обновление устаревшего установщика
+        run: bash tests/test-installer-refresh.sh
