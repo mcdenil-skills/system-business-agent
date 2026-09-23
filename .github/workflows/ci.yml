@@ -35,3 +35,6 @@ jobs:
 
       - name: Проверить упаковку продукта и локальную установку
         run: bash tests/test-product-packaging.sh
+
+      - name: Проверить установку сценариста коротких роликов
+        run: bash tests/test-short-video-installation.sh
