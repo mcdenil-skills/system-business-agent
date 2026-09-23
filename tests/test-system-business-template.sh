@@ -13,6 +13,11 @@ for path in AGENTS.md CLAUDE.md SOUL.md USER.md MEMORY.md README.md memory/.gitk
   [[ -f "$AGENT/$path" ]] || fail "missing $path"
 done
 
+PROCESS="$AGENT/docs/development/skill-development-process.md"
+[[ -f "$PROCESS" ]] || fail "missing canonical skill-development process"
+rg -q 'docs/development/skill-development-process\.md' "$AGENT/AGENTS.md" || fail "AGENTS.md does not route source-repository work to the skill-development process"
+rg -q 'Claude Code.*Codex|Codex.*Claude Code' "$PROCESS" || fail "skill-development process does not cover both Claude Code and Codex"
+
 rg -q '^@AGENTS\.md$' "$AGENT/CLAUDE.md" || fail "CLAUDE.md does not load AGENTS.md"
 
 if rg -qi 'продюсер контента|про что снимать|контент-стратег' "$AGENT/AGENTS.md" "$AGENT/SOUL.md" "$AGENT/README.md"; then
@@ -26,7 +31,7 @@ INSTALLER="$AGENT/skills/installer/SKILL.md"
 [[ ! -e "$AGENT/.codex/skills/installer/SKILL.md" ]] || fail "source repository contains duplicate Codex installer"
 
 rg -q 'mcdenil-skills/system-business-agent' "$INSTALLER" || fail "wrong public repository"
-rg -q 'не копируй папки `skills/`, `tests/` и `\.github/`' "$AGENT/README.md" || fail "installation prompt does not exclude repository-only folders"
+rg -q 'не копируй в рабочую папку `skills/`, `tests/`, `\.github/` и `docs/development/`' "$AGENT/README.md" || fail "installation prompt does not exclude repository-only folders"
 rg -qi 'Распаковка профессиональной экспертности.*expertise-unpacking|expertise-unpacking.*Распаковка профессиональной экспертности' "$INSTALLER" || fail "missing expertise-unpacking alias"
 rg -q '\.claude/skills/<name>' "$INSTALLER" || fail "missing Claude destination"
 rg -q '\.codex/skills/<name>' "$INSTALLER" || fail "missing Codex destination"
