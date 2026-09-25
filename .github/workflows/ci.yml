@@ -39,5 +39,11 @@ jobs:
       - name: Проверить установку сценариста коротких роликов
         run: bash tests/test-short-video-installation.sh
 
+      - name: Проверить скилл прогрева аудитории
+        run: bash tests/test-audience-warmup.sh
+
+      - name: Проверить установку скилла прогрева
+        run: bash tests/test-audience-warmup-installation.sh
+
       - name: Проверить обновление устаревшего установщика
         run: bash tests/test-installer-refresh.sh

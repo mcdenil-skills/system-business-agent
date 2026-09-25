@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Прогрев аудитории</title>
+<style>
+:root {
+  --bg: #eef2ef;
+  --surface: #ffffff;
+  --surface-2: #f6f8f6;
+  --ink: #1f2f29;
+  --muted: #53645d;
+  --line: #d5ddd8;
+  --accent: #2f6b55;
+  --accent-soft: #e1eee7;
+  --warn: #8a4b12;
+  --warn-soft: #fbeedd;
+  --focus: #1c5bd6;
+  --radius: 12px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141b18;
+    --surface: #1c2521;
+    --surface-2: #222d28;
+    --ink: #e7eee9;
+    --muted: #a7b6af;
+    --line: #34423c;
+    --accent: #7cc4a4;
+    --accent-soft: #23372e;
+    --warn: #f0b77a;
+    --warn-soft: #3a2a1a;
+    --focus: #8fb4ff;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overflow-wrap: break-word;
+}
+.page { max-width: 1180px; margin: 0 auto; padding: 24px 16px 48px; }
+header.top {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.eyebrow { margin: 0 0 4px; color: var(--muted); font-size: 14px; }
+h1 { margin: 0 0 12px; font-size: clamp(22px, 4vw, 30px); line-height: 1.25; }
+h2 { margin: 0 0 12px; font-size: 20px; }
+h3 { margin: 0 0 8px; font-size: 17px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.chip {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 14px;
+}
+.chip b { font-weight: 600; }
+.note { margin: 12px 0 0; font-size: 14px; color: var(--muted); }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+button {
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.tablist {
+  display: flex;
+  gap: 4px;
+  margin: 20px 0 0;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--line);
+}
+[role="tab"] {
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 8px 8px 0 0;
+  background: transparent;
+  padding: 10px 14px;
+  white-space: nowrap;
+  color: var(--muted);
+}
+[role="tab"][aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+[role="tabpanel"] {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 0;
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 20px;
+  min-width: 0;
+}
+.lead { margin: 0 0 16px; color: var(--muted); }
+.table-wrap { max-width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 10px; border-bottom: 1px solid var(--line); }
+th { background: var(--surface-2); font-weight: 600; position: sticky; top: 0; }
+table.plan { min-width: 900px; }
+table.plan:not(.brief) { min-width: 1900px; }
+table.plan th, table.plan td { min-width: 110px; }
+table.plan .c-day { min-width: 96px; white-space: nowrap; }
+table.plan .c-mid { min-width: 180px; }
+table.plan .c-wide { min-width: 230px; }
+table.plan.brief .detail { display: none; }
+td ul { margin: 0; padding-left: 18px; }
+.day-num { font-weight: 700; white-space: nowrap; }
+.muted { color: var(--muted); }
+.tag {
+  display: inline-block;
+  white-space: nowrap;
+  background: var(--accent-soft);
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-size: 13px;
+  margin: 2px 4px 2px 0;
+}
+.tag.meaning { background: transparent; border: 1px solid var(--accent); }
+.nodata { background: var(--warn-soft); color: var(--warn); border-radius: 6px; padding: 2px 6px; }
+.stages { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.stage { border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: var(--surface-2); }
+.stage h3 { color: var(--accent); }
+.stage p { margin: 4px 0 0; }
+.strip { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.strip li { border: 1px solid var(--line); border-radius: 8px; padding: 10px; }
+.bar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; border: 1px solid var(--line); margin: 8px 0 16px; }
+.bar span { display: block; height: 100%; }
+.why-list { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 10px; }
+.why-list li { border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+.why-list p { margin: 6px 0 0; }
+.evidence { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 16px; }
+.evidence section { border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+.evidence ul { margin: 0; padding-left: 18px; }
+.legal { border: 1px solid var(--warn); background: var(--warn-soft); padding: 10px 12px; border-radius: 8px; margin: 0; }
+.day-texts { border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; }
+.block { margin: 12px 0; }
+.copytext { white-space: pre-wrap; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin: 8px 0; }
+.frames { margin: 8px 0; padding-left: 22px; }
+.frames li { margin-bottom: 8px; }
+.frame-fn { display: block; font-size: 13px; color: var(--muted); }
+.hint { min-height: 1.4em; font-size: 14px; color: var(--accent); margin: 4px 0 0; }
+.error { border: 1px solid var(--warn); background: var(--warn-soft); color: var(--warn); padding: 16px; border-radius: var(--radius); }
+@media (max-width: 600px) {
+  .page { padding: 16px 16px 40px; }
+  header.top, [role="tabpanel"] { padding: 16px; }
+  [role="tab"] { padding: 10px 9px; font-size: 15px; }
+}
+@media (max-width: 700px) {
+  .table-wrap.plan-wrap { overflow: visible; border: 0; }
+  table.plan, table.plan:not(.brief) { min-width: 0; }
+  table.plan thead { display: none; }
+  table.plan, table.plan tbody, table.plan tr, table.plan td { display: block; width: auto; min-width: 0 !important; }
+  table.plan tr { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; background: var(--surface); }
+  table.plan td { border: 0; padding: 4px 0; white-space: normal; }
+  table.plan td::before { content: attr(data-label); display: block; font-size: 12px; font-weight: 600; color: var(--muted); }
+  table.plan td.c-day::before { content: none; }
+  table.plan.brief td.detail { display: none; }
+}
+@media print {
+  body { background: #fff; color: #000; font-size: 11pt; }
+  .page { max-width: none; padding: 0; }
+  .toolbar, .tablist, .hint, button { display: none !important; }
+  [role="tabpanel"], [role="tabpanel"][hidden] { display: block !important; border: 0; padding: 12px 0; page-break-before: always; }
+  [role="tabpanel"]:first-of-type { page-break-before: auto; }
+  .table-wrap { overflow: visible; border: 0; }
+  table.plan, table.plan:not(.brief) { min-width: 0; font-size: 9pt; }
+  table.plan .detail { display: table-cell !important; }
+  table.plan thead { display: table-header-group !important; }
+  table.plan tr { display: table-row !important; }
+  table.plan td { display: table-cell !important; }
+  table.plan td::before { content: none !important; }
+  th { position: static; }
+}
+</style>
+</head>
+<body>
+<!--
+  Шаблон скилла audience-warmup. Модель не верстает страницу заново:
+  она копирует этот файл в knowledge/warmup-plan.html и заменяет одну строку
+  с блоком warmup-data (null) на JSON с данными из knowledge/warmup-plan.md.
+  Внутри JSON последовательность </ записывается как <\/. Весь текст выводится через textContent.
+-->
+<script type="application/json" id="warmup-data">null</script>
+
+<div class="page" id="app">
+  <noscript><p class="error">Для просмотра плана включите JavaScript. Исходный текст плана лежит в knowledge/warmup-plan.md.</p></noscript>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var app = document.getElementById('app');
+  var data;
+  try {
+    data = JSON.parse(document.getElementById('warmup-data').textContent);
+  } catch (e) {
+    app.replaceChildren(el('p', { className: 'error', text: 'Данные страницы повреждены. Попросите агента пересобрать её из knowledge/warmup-plan.md.' }));
+    return;
+  }
+  if (!data || typeof data !== 'object') {
+    app.replaceChildren(el('p', { className: 'error', text: 'Это пустой шаблон: агент ещё не подставил данные плана. Сам план лежит в knowledge/warmup-plan.md.' }));
+    return;
+  }
+
+  var meta = data.meta || {};
+  var days = Array.isArray(data.days) ? data.days : [];
+  var stages = Array.isArray(data.stages) ? data.stages : [];
+  var texts = Array.isArray(data.texts) ? data.texts : [];
+  var evidence = data.evidence || {};
+  var isOngoing = meta.mode === 'ongoing';
+
+  function el(tag, opts) {
+    var node = document.createElement(tag);
+    opts = opts || {};
+    if (opts.className) node.className = opts.className;
+    if (opts.text !== undefined && opts.text !== null) node.textContent = String(opts.text);
+    if (opts.attrs) {
+      Object.keys(opts.attrs).forEach(function (key) { node.setAttribute(key, opts.attrs[key]); });
+    }
+    for (var i = 2; i < arguments.length; i++) {
+      if (arguments[i]) node.append(arguments[i]);
+    }
+    return node;
+  }
+
+  function str(value) {
+    return value === undefined || value === null ? '' : String(value);
+  }
+
+  function formatDate(value) {
+    var s = str(value);
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+    return m ? m[3] + '.' + m[2] + '.' + m[1] : s;
+  }
+
+  function markNoData(node, value) {
+    var s = str(value);
+    if (s.indexOf('[НЕТ ДАННЫХ]') !== -1) {
+      node.append(el('span', { className: 'nodata', text: s }));
+    } else {
+      node.textContent = s;
+    }
+    return node;
+  }
+
+  function list(items) {
+    var ul = el('ul');
+    (Array.isArray(items) ? items : []).forEach(function (item) { ul.append(el('li', { text: str(item) })); });
+    return ul;
+  }
+
+  function technologyLabel() {
+    if (isOngoing) return 'Постоянный контент-план';
+    if (meta.technology === '14') return 'Прогрев на 14 дней';
+    if (meta.technology === '5') return 'Прогрев на 5 дней';
+    return str(meta.technology);
+  }
+
+  function chip(label, value) {
+    if (!str(value)) return null;
+    var li = el('li', { className: 'chip' });
+    li.append(el('b', { text: label + ': ' }), document.createTextNode(str(value)));
+    return li;
+  }
+
+  var hint = el('p', { className: 'hint', attrs: { 'aria-live': 'polite' } });
+
+  function copyText(text, sourceNode) {
+    function fallback() {
+      var range = document.createRange();
+      range.selectNodeContents(sourceNode);
+      var selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      hint.textContent = 'Текст выделен. Скопируйте вручную: Cmd+C или Ctrl+C.';
+    }
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      navigator.clipboard.writeText(text).then(function () {
+        hint.textContent = 'Скопировано.';
+      }, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  // Шапка
+  var header = el('header', { className: 'top' });
+  header.append(el('p', { className: 'eyebrow', text: technologyLabel() }));
+  header.append(el('h1', { text: str(meta.title) || 'Прогрев аудитории' }));
+  var chips = el('ul', { className: 'chips' });
+  [
+    chip('Событие', meta.event),
+    chip('Дата', formatDate(meta.eventDate)),
+    chip('Целевое действие', meta.targetAction),
+    chip('Предложение', meta.offer),
+    chip('Аудитория', meta.audience),
+    chip('Площадки', Array.isArray(meta.platforms) ? meta.platforms.join(', ') : meta.platforms),
+    chip('Статус', meta.status)
+  ].forEach(function (node) { if (node) chips.append(node); });
+  header.append(chips);
+  header.append(el('p', { className: 'note', text: 'Синхронизировано с knowledge/warmup-plan.md: ' + formatDate(meta.syncedAt) + '. Файл может содержать частные сведения - не пересылайте его клиентам целиком.' }));
+  var printButton = el('button', { text: 'Печать / PDF', attrs: { type: 'button' } });
+  printButton.addEventListener('click', function () { window.print(); });
+  header.append(el('div', { className: 'toolbar' }, printButton));
+
+  // Вкладки
+  var tabDefs = [
+    { id: 'plan', title: 'План' },
+    { id: 'tech', title: 'Технология' },
+    { id: 'why', title: 'Почему так' },
+    { id: 'texts', title: 'Тексты' }
+  ];
+  var tablist = el('div', { className: 'tablist', attrs: { role: 'tablist', 'aria-label': 'Разделы плана' } });
+  var panels = [];
+  var tabs = tabDefs.map(function (def, index) {
+    var tab = el('button', {
+      text: def.title,
+      attrs: { type: 'button', role: 'tab', id: 'tab-' + def.id, 'aria-controls': 'panel-' + def.id, 'aria-selected': index === 0 ? 'true' : 'false', tabindex: index === 0 ? '0' : '-1' }
+    });
+    var panel = el('section', { attrs: { role: 'tabpanel', id: 'panel-' + def.id, 'aria-labelledby': 'tab-' + def.id, tabindex: '0' } });
+    if (index !== 0) panel.hidden = true;
+    panels.push(panel);
+    tablist.append(tab);
+    return tab;
+  });
+
+  function selectTab(index, focus) {
+    tabs.forEach(function (tab, i) {
+      var active = i === index;
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      tab.setAttribute('tabindex', active ? '0' : '-1');
+      panels[i].hidden = !active;
+    });
+    if (focus) tabs[index].focus();
+  }
+
+  tabs.forEach(function (tab, index) {
+    tab.addEventListener('click', function () { selectTab(index, false); });
+    tab.addEventListener('keydown', function (event) {
+      var next = null;
+      if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+      if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = tabs.length - 1;
+      if (next !== null) { event.preventDefault(); selectTab(next, true); }
+    });
+  });
+
+  // План
+  (function buildPlan(panel) {
+    panel.append(el('h2', { text: 'План по дням' }));
+    panel.append(el('p', { className: 'lead', text: isOngoing
+      ? 'Каждая строка - один материал. Тип прогрева показывает, какую задачу он решает.'
+      : 'Каждая строка - один день прогрева. Подробный режим показывает заголовки, тезисы и что нужно от автора.' }));
+    var table = el('table', { className: 'plan brief' });
+    var toggle = el('button', { text: 'Подробно', attrs: { type: 'button', 'aria-pressed': 'false' } });
+    toggle.addEventListener('click', function () {
+      var brief = table.classList.toggle('brief');
+      toggle.textContent = brief ? 'Подробно' : 'Кратко';
+      toggle.setAttribute('aria-pressed', brief ? 'false' : 'true');
+    });
+    panel.append(el('div', { className: 'toolbar' }, toggle));
+    var columns = [
+      { title: 'День', detail: false, size: 'c-day' },
+      { title: isOngoing ? 'Тип прогрева' : 'Этап и смысл', detail: false, size: '' },
+      { title: 'Тема', detail: false, size: 'c-mid' },
+      { title: 'Заголовки', detail: true, size: 'c-wide' },
+      { title: 'Формат и площадка', detail: false, size: '' },
+      { title: 'Тезисы', detail: true, size: 'c-wide' },
+      { title: 'Целевое действие', detail: false, size: 'c-mid' },
+      { title: 'Цель', detail: false, size: 'c-mid' },
+      { title: 'Триггер', detail: false, size: '' },
+      { title: 'Как честно усилить', detail: true, size: 'c-mid' },
+      { title: 'Почему здесь', detail: true, size: 'c-wide' },
+      { title: 'Что нужно от автора', detail: true, size: 'c-mid' }
+    ];
+    var headRow = el('tr');
+    columns.forEach(function (col) {
+      headRow.append(el('th', { text: col.title, className: ((col.detail ? 'detail ' : '') + col.size).trim(), attrs: { scope: 'col' } }));
+    });
+    table.append(el('thead', {}, headRow));
+    var body = el('tbody');
+    days.forEach(function (day) {
+      var row = el('tr', { attrs: { 'data-day-row': str(day.day) } });
+      var dayCell = el('td', { className: 'c-day' });
+      dayCell.append(el('span', { className: 'day-num', text: 'День ' + str(day.day) }));
+      if (day.date) dayCell.append(el('div', { className: 'muted', text: formatDate(day.date) }));
+      var stageCell = el('td');
+      stageCell.append(el('span', { className: 'tag', text: str(day.stage) }));
+      if (day.meaning) stageCell.append(el('span', { className: 'tag meaning', text: str(day.meaning) }));
+      var formatCell = el('td', { text: str(day.format) });
+      if (day.platform) formatCell.append(el('div', { className: 'muted', text: str(day.platform) }));
+      row.append(
+        dayCell,
+        stageCell,
+        el('td', { className: 'c-mid', text: str(day.topic) }),
+        el('td', { className: 'detail c-wide' }, list(day.headlines)),
+        formatCell,
+        el('td', { className: 'detail c-wide' }, list(day.theses)),
+        el('td', { className: 'c-mid', text: str(day.action) }),
+        el('td', { className: 'c-mid', text: str(day.goal) }),
+        el('td', { text: str(day.trigger) }),
+        el('td', { className: 'detail c-mid', text: str(day.boost) }),
+        el('td', { className: 'detail c-wide', text: str(day.why) }),
+        markNoData(el('td', { className: 'detail c-mid' }), day.needFromAuthor)
+      );
+      Array.prototype.forEach.call(row.children, function (cell, i) { cell.setAttribute('data-label', columns[i].title); });
+      body.append(row);
+    });
+    table.append(body);
+    panel.append(el('div', { className: 'table-wrap plan-wrap' }, table));
+  })(panels[0]);
+
+  // Технология
+  (function buildTech(panel) {
+    if (isOngoing) {
+      panel.append(el('h2', { text: 'Постоянный контент-план: четыре типа прогрева' }));
+      panel.append(el('p', { className: 'lead', text: 'Прогрев к личности и к теме строит отношения, к экспертности и к продукту - доверие к предложению. Рабочее правило: около 70% материалов про личность и тему, около 30% про экспертность и продукт. Это правило практики, а не научный закон.' }));
+      var counts = {};
+      days.forEach(function (day) { var key = str(day.stage) || 'без типа'; counts[key] = (counts[key] || 0) + 1; });
+      var total = days.length || 1;
+      var palette = ['var(--accent)', '#8fb09f', '#c98b4a', '#6d7f9c', '#a3a3a3'];
+      var bar = el('div', { className: 'bar', attrs: { role: 'img', 'aria-label': 'Доли типов прогрева' } });
+      var legend = el('ul', { className: 'chips' });
+      Object.keys(counts).forEach(function (key, i) {
+        var share = Math.round(counts[key] * 100 / total);
+        var part = el('span');
+        part.style.width = share + '%';
+        part.style.background = palette[i % palette.length];
+        bar.append(part);
+        legend.append(el('li', { className: 'chip', text: key + ': ' + counts[key] + ' (' + share + '%)' }));
+      });
+      panel.append(bar, legend);
+    } else {
+      panel.append(el('h2', { text: technologyLabel() }));
+      panel.append(el('p', { className: 'lead', text: meta.technology === '14'
+        ? 'Каркас по технологии запуска Джеффа Уокера: разогрев, три материала пользы, предложение, закрытие. Каждый материал полезен, даже если человек ничего не купит.'
+        : 'Короткий прогрев для тёплой аудитории и готового предложения: позиционирование, мифы, предложение, доказательства и честное ограничение, возражения. Порядок следует той же логике Уокера: сначала польза, потом предложение.' }));
+      var stageList = el('ol', { className: 'stages' });
+      stages.forEach(function (stage) {
+        var item = el('li', { className: 'stage' });
+        item.append(el('h3', { text: str(stage.name) }));
+        item.append(el('div', { className: 'muted', text: 'Дни: ' + str(stage.days) }));
+        item.append(el('p', { text: str(stage.purpose) }));
+        stageList.append(item);
+      });
+      panel.append(stageList);
+    }
+    panel.append(el('h3', { text: 'Дни лентой' }));
+    var strip = el('ol', { className: 'strip' });
+    days.forEach(function (day) {
+      var item = el('li');
+      item.append(el('div', { className: 'day-num', text: 'День ' + str(day.day) + (day.date ? ' · ' + formatDate(day.date) : '') }));
+      item.append(el('span', { className: 'tag', text: str(day.stage) }));
+      if (day.meaning) item.append(el('span', { className: 'tag meaning', text: str(day.meaning) }));
+      item.append(el('div', { text: str(day.topic) }));
+      strip.append(item);
+    });
+    panel.append(strip);
+  })(panels[1]);
+
+  // Почему так
+  (function buildWhy(panel) {
+    panel.append(el('h2', { text: 'Почему прогрев построен именно так' }));
+    panel.append(el('p', { className: 'lead', text: 'У каждого дня своя задача. Сначала человек должен понять, кто с ним говорит и в чём проблема, потом увидеть решение и доказательства, и только в конце - принять решение.' }));
+    var whyList = el('ol', { className: 'why-list' });
+    days.forEach(function (day) {
+      var item = el('li');
+      var title = el('div');
+      title.append(el('span', { className: 'day-num', text: 'День ' + str(day.day) + ' ' }));
+      title.append(el('span', { className: 'tag', text: str(day.stage) }));
+      if (day.meaning) title.append(el('span', { className: 'tag meaning', text: str(day.meaning) }));
+      item.append(title, el('p', { text: str(day.topic) }), el('p', { className: 'muted', text: str(day.why) }));
+      whyList.append(item);
+    });
+    panel.append(whyList);
+    var evidenceBox = el('div', { className: 'evidence' });
+    var confirmed = el('section');
+    confirmed.append(el('h3', { text: 'Подтверждено фактами' }), list(evidence.confirmed));
+    var missing = el('section');
+    missing.append(el('h3', { text: 'Нет данных - нужно от вас' }), list(evidence.missing));
+    evidenceBox.append(confirmed, missing);
+    panel.append(evidenceBox);
+    if (meta.legalNote) panel.append(el('p', { className: 'legal', text: str(meta.legalNote) }));
+  })(panels[2]);
+
+  // Тексты
+  (function buildTexts(panel) {
+    panel.append(el('h2', { text: 'Готовые тексты' }));
+    panel.append(hint);
+    if (!texts.length) {
+      panel.append(el('p', { className: 'lead', text: 'Тексты появятся после утверждения плана. Напишите агенту: «напиши день 1».' }));
+      return;
+    }
+    texts.forEach(function (entry) {
+      var box = el('article', { className: 'day-texts' });
+      box.append(el('h3', { text: 'День ' + str(entry.day) }));
+      if (entry.post && entry.post.text) {
+        var postBlock = el('div', { className: 'block' });
+        postBlock.append(el('div', { className: 'muted', text: 'Пост' + (entry.post.model ? ' · модель: ' + str(entry.post.model) : '') }));
+        var postText = el('div', { className: 'copytext', text: str(entry.post.text) });
+        var copyPost = el('button', { text: 'Копировать пост', attrs: { type: 'button' } });
+        copyPost.addEventListener('click', function () { copyText(str(entry.post.text), postText); });
+        postBlock.append(postText, copyPost);
+        box.append(postBlock);
+      }
+      if (Array.isArray(entry.stories) && entry.stories.length) {
+        var storyBlock = el('div', { className: 'block' });
+        storyBlock.append(el('div', { className: 'muted', text: 'Серия сторис: один смысловой путь' }));
+        var frames = el('ol', { className: 'frames' });
+        entry.stories.forEach(function (frame) {
+          var li = el('li');
+          li.append(el('span', { className: 'frame-fn', text: 'Функция: ' + str(frame.function) }));
+          li.append(document.createTextNode(str(frame.text)));
+          frames.append(li);
+        });
+        var storiesText = entry.stories.map(function (frame, i) { return (i + 1) + '. ' + str(frame.text); }).join('\n');
+        var copyStories = el('button', { text: 'Копировать сторис', attrs: { type: 'button' } });
+        copyStories.addEventListener('click', function () { copyText(storiesText, frames); });
+        storyBlock.append(frames, copyStories);
+        box.append(storyBlock);
+      }
+      if (Array.isArray(entry.facts) && entry.facts.length) {
+        var factTable = el('table');
+        var head = el('tr');
+        ['Утверждение', 'Статус', 'Источник'].forEach(function (title) { head.append(el('th', { text: title, attrs: { scope: 'col' } })); });
+        factTable.append(el('thead', {}, head));
+        var factBody = el('tbody');
+        entry.facts.forEach(function (fact) {
+          factBody.append(el('tr', {}, el('td', { text: str(fact.claim) }), el('td', { text: str(fact.status) }), el('td', { text: str(fact.source) })));
+        });
+        factTable.append(factBody);
+        var factBlock = el('div', { className: 'block' });
+        factBlock.append(el('div', { className: 'muted', text: 'Проверка утверждений' }), el('div', { className: 'table-wrap' }, factTable));
+        box.append(factBlock);
+      }
+      panel.append(box);
+    });
+  })(panels[3]);
+
+  app.append(header, tablist);
+  panels.forEach(function (panel) { app.append(panel); });
+})();
+</script>
+</body>
+</html>

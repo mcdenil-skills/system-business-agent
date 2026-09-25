@@ -41,6 +41,7 @@ INSTALLER_SOURCE_DIR="$ROOT/skills/installer" bash "$REFRESH" "$AGENT"
 diff -qr "$ROOT/skills/installer" "$AGENT/.claude/skills/installer" >/dev/null || fail "Claude installer was not refreshed exactly"
 diff -qr "$AGENT/.claude/skills/installer" "$AGENT/.codex/skills/installer" >/dev/null || fail "Claude and Codex installers differ after refresh"
 rg -q 'short-video-scriptwriter' "$AGENT/.claude/skills/installer/SKILL.md" || fail "refreshed catalog still misses short-video-scriptwriter"
+rg -q 'audience-warmup' "$AGENT/.claude/skills/installer/SKILL.md" || fail "refreshed catalog still misses audience-warmup"
 
 [[ "$before_user" == "$(shasum -a 256 "$AGENT/USER.md")" ]] || fail "USER.md changed during refresh"
 [[ "$before_memory" == "$(shasum -a 256 "$AGENT/MEMORY.md")" ]] || fail "MEMORY.md changed during refresh"
