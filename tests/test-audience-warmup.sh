@@ -66,6 +66,21 @@ need 'базовая линия' "$SKILL" "missing baseline metrics"
 need 'просьб.*разрешени' "$SKILL" "missing consent request"
 need 'Можно я опубликую ваш отзыв' "$LAW" "missing consent request template"
 
+# Работа вне курса: без установщика «Системного бизнеса» и без памяти агента
+need 'skills/installer' "$SKILL" "missing course-installer detection"
+need 'npx skills add mcdenil-skills/system-business-agent --skill expertise-unpacking' "$SKILL" "missing outside-course command for unpacking"
+need 'npx skills add mcdenil-skills/system-business-agent --skill product-selection' "$SKILL" "missing outside-course command for product selection"
+need 'npx skills add mcdenil-skills/system-business-agent --skill short-video-scriptwriter' "$SKILL" "missing outside-course command for scriptwriter"
+need 'нет файлов памяти.*не значит|не значит.*нечего предложить' "$SKILL" "empty memory must not trigger the no-offer stop"
+need 'MEMORY\.md.*только если.*(есть|существ)|только если.*MEMORY\.md' "$SKILL" "MEMORY.md must be touched only when it already exists"
+need 'memory/.*только если.*(есть|существ)|только если.*memory/' "$SKILL" "diary must be written only when memory/ already exists"
+need 'не больше четырёх вариант' "$SKILL" "missing popup option limit"
+need 'свободн.*текст|своими словами' "$SKILL" "questions with dates must allow free text"
+need 'сколько.*(читател|подписчик)' "$SKILL" "missing audience size in platform question"
+need 'в сообщении участника' "$SKILL" "must not re-ask facts from the participant's message"
+need 'если (участник )?(его )?не назвал' "$SKILL" "must not re-ask the plan period"
+need 'события нет' "$SKILL" "question 1 must offer an ongoing-plan answer"
+
 need 'нумерованн.*сообщен' "$SKILL" "missing numbered fallback"
 need 'Claude.*Codex|Codex.*Claude' "$SKILL" "missing cross-client note"
 need '\[НЕТ ДАННЫХ\]' "$SKILL" "missing no-data marker"
@@ -145,5 +160,8 @@ rg -q 'Прогрев аудитории.*audience-warmup.*доступен' "$R
 rg -q 'Помоги сделать прогрев и контент-план' "$ROOT/skills/installer/SKILL.md" || fail "missing installer verification phrase"
 rg -q 'Установи скилл «Прогрев аудитории»' "$ROOT/README.md" || fail "missing README install phrase"
 rg -q 'Помоги сделать прогрев и контент-план' "$ROOT/README.md" || fail "missing README run phrase"
+rg -qF 'npx skills add mcdenil-skills/system-business-agent --skill audience-warmup' "$ROOT/README.md" || fail "missing README outside-course install command"
+[[ -f "$ROOT/LICENSE" ]] || fail "missing LICENSE"
+rg -q '^MIT License' "$ROOT/LICENSE" || fail "LICENSE must be MIT"
 
 printf 'PASS: audience-warmup structure, methodology, template and wiring\n'
