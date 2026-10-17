@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>Продуктовая линейка</title>
+<style>
+:root{color-scheme:light;--paper:#f5f4ee;--card:#fff;--ink:#1e302b;--muted:#5c6b65;--line:#d9dfd5;--green:#225d48;--soft:#e8f0e7;--amber:#fff2d5;--radius:18px}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-wrap:anywhere}button,textarea{font:inherit}button{cursor:pointer}button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:3px solid #ab761c;outline-offset:4px}main{max-width:1180px;margin:auto;padding:52px 36px 64px}.eyebrow{font-size:12px;font-weight:750;text-transform:uppercase;letter-spacing:.14em;color:var(--green);margin:0 0 18px}h1{font-size:clamp(30px,4vw,49px);line-height:1.12;letter-spacing:-.04em;max-width:900px;margin:0 0 22px}h2{font-size:25px;line-height:1.2;letter-spacing:-.025em;margin:0 0 10px}h3{font-size:19px;line-height:1.3;margin:10px 0}p{margin:0 0 12px}.muted{color:var(--muted)}.intro{max-width:760px;color:var(--muted)}.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--muted);margin:18px 0}.status{display:inline-block;background:var(--amber);border-radius:8px;padding:5px 10px;color:#75501f;font-size:13px;font-weight:600}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:22px 0 26px;border-bottom:1px solid var(--line);margin-bottom:32px}.switch{display:flex;gap:4px;padding:4px;background:#e5e9e0;border-radius:12px}.switch button{border:0;background:transparent;color:var(--muted);padding:9px 18px;border-radius:8px;font-weight:650}.switch button[aria-pressed="true"]{background:white;color:var(--ink);box-shadow:0 1px 5px #1e302b12}.actions{display:flex;gap:8px;flex-wrap:wrap}.action{border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--ink);padding:9px 13px;font-size:14px;font-weight:600}.action:hover{background:white}.section{margin-top:38px}.section-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:18px}.section-note{font-size:14px;color:var(--muted)}.offers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.offer{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);padding:23px;min-width:0}.offer.core{background:var(--green);color:#fff;grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:10px 40px}.offer.core .role,.offer.core .label{color:#c4dfcf}.offer.core .offer-header{grid-column:1/-1}.offer.core .price{color:#f4edb9}.offer.core details{grid-column:1/-1;border-color:#ffffff33}.role{font-size:11px;letter-spacing:.09em;font-weight:750;color:var(--green);text-transform:uppercase}.label{font-size:12px;font-weight:700;display:block;color:var(--muted);margin:0 0 4px}.fact{margin:0 0 13px}.price{font-weight:700;font-size:15px}.offer-note{font-size:13px;color:var(--muted);margin-bottom:0}.offer.core .offer-note{color:#d9e8df}details{margin-top:16px;border-top:1px solid var(--line);padding-top:13px}summary{font-size:14px;font-weight:650;cursor:pointer;width:fit-content}dl{margin:16px 0 0}dt{font-size:12px;font-weight:700;margin:13px 0 3px;color:var(--muted)}dd{margin:0;font-size:14px}.core dt{color:#c4dfcf}.transitions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.transition{background:#ecefe7;padding:18px 20px;border-radius:13px;border-left:3px solid var(--green)}.transition[data-transition-kind="upgrade"]{border-color:#7761a6}.transition[data-transition-kind="complement"]{border-color:#3b7f91}.transition[data-transition-kind="alternative"]{border-color:#a7722b}.transition h3{font-size:15px;margin:8px 0 12px}.transition p{font-size:14px}.transition .role{font-size:10px}.small{font-size:14px}.table-wrap{max-width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:white}table{width:100%;border-collapse:collapse;min-width:930px;font-size:14px}caption{text-align:left;padding:16px 20px;font-weight:650}th,td{text-align:left;padding:16px;vertical-align:top;border-top:1px solid var(--line);max-width:250px}th{background:var(--soft);font-size:12px;color:var(--muted)}.panels{display:grid;grid-template-columns:1fr 1fr;gap:20px}.panel{background:white;border:1px solid var(--line);padding:24px;border-radius:var(--radius);min-width:0}.panel.wide{grid-column:1/-1}.panel dl{display:grid;grid-template-columns:150px minmax(0,1fr);column-gap:20px;row-gap:10px}.panel dt,.panel dd{margin:0}.panel h3{margin:0 0 16px}ul,ol{padding-left:22px;margin:8px 0 12px}li{padding-left:3px;margin-bottom:7px}.decision-list{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 22px}.decision-list li{padding:15px 0;border-bottom:1px solid var(--line);font-size:14px}.decision-list strong{display:block;margin-bottom:4px}.next{background:var(--soft);padding:24px;border-radius:var(--radius);border:1px solid #cbdacb;margin-top:22px}.next p{margin:7px 0 0;font-size:19px;font-weight:650}.footer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:36px;padding-top:18px}.notice{padding:30px;background:white;border:1px solid var(--line);border-radius:var(--radius);max-width:760px}.error{background:#fff0e9;border-color:#dba389;color:#7b3215}#copy-status{font-size:13px;color:var(--green);min-height:1.5em;margin:8px 0}#copy-fallback{background:white;padding:18px;border:1px solid var(--line);border-radius:14px;margin-bottom:24px}textarea{width:100%;min-height:180px;padding:12px;border:1px solid var(--line);border-radius:8px;resize:vertical;color:var(--ink);background:var(--paper)}[hidden]{display:none!important}
+@media(max-width:760px){main{padding:30px 20px 40px}.offers{grid-template-columns:1fr 1fr}.offer.core{grid-template-columns:1fr}.offer.core .offer-header,.offer.core details{grid-column:auto}.transitions,.panels{grid-template-columns:1fr}.decision-list{grid-template-columns:1fr 1fr}.panel.wide{grid-column:auto}.toolbar{gap:14px}.section-head{display:block}.section-note{display:block;margin-top:8px}.panel dl{grid-template-columns:1fr;gap:5px}.panel dd{margin-bottom:9px}}
+@media(max-width:440px){main{padding:26px 16px 36px}.offers,.decision-list{grid-template-columns:1fr}.offer{padding:20px}.toolbar{align-items:stretch}.switch{width:100%}.switch button{flex:1}.actions{width:100%}.action{flex:1;padding:10px 8px;font-size:13px}.panel{padding:20px}h2{font-size:23px}.section{margin-top:30px}}
+@media print{@page{size:A4;margin:15mm}body{background:white;font-size:11px;color:#111}main{padding:0;max-width:none}h1{font-size:28px}h2{font-size:20px}.toolbar,#copy-status,#copy-fallback,.footer{display:none!important}[data-view="map"]{display:block!important}[data-view="table"]{display:none!important}.offers{grid-template-columns:repeat(2,minmax(0,1fr))}.offer.core{display:block}.offer,.panel,.next,.transition{break-inside:avoid;background:white!important;color:#111!important;box-shadow:none}.offer.core .role,.offer.core .label,.offer.core .price,.offer.core .offer-note,.core dt{color:#333}.offer.core{border:2px solid #225d48}.role{font-size:9px}.section{margin-top:22px}details{display:block}.panels{display:block}.panel{margin-bottom:14px}.transitions{grid-template-columns:1fr 1fr}summary{list-style:none}.decision-list{grid-template-columns:1fr 1fr}.status{border:1px solid #ccc}}
+</style>
+</head>
+<body>
+<main>
+<div id="placeholder" class="notice"><p class="eyebrow">Продуктовая линейка</p><h1>Карта пока не заполнена</h1><p>Это автономный шаблон результата. После согласования карты агент добавит данные из вашего <strong>product-line.md</strong>.</p><p class="muted">Личные данные не передаются во внешние сервисы.</p></div>
+<div id="error" class="notice error" role="alert" hidden></div>
+<div id="app" hidden></div>
+</main>
+<!-- Replace null with JSON derived from product-line.md. Escape every < as \u003c
+     in JSON before inserting it here, so text cannot close this script element. -->
+<script type="application/json" id="product-line-data">null</script>
+<script>
+'use strict';
+(() => {
+const roles = {core:'Основной продукт','lead-magnet':'Лид-магнит',tripwire:'Первая покупка · трипваер',upsell:'Более полный вариант · апселл','cross-sell':'Дополнение · кросс-селл',downsell:'Альтернатива · даун-селл'};
+const kinds = {primary:'Следующий шаг',upgrade:'Более полный вариант · апселл',complement:'Дополнение · кросс-селл',alternative:'Альтернатива · даун-селл'};
+const offerFields = ['id','role','name','audience','result','format','price','status','priority','scope','limits','effort','timing','costs','evidence','unknowns'];
+const briefFields = ['offerId','title','recipient','problem','result','format','rationale','sample','delivery','cta','check'];
+const detailLabels = {scope:'Состав и объём',limits:'Границы',effort:'Участие и усилия клиента',timing:'Срок',costs:'Расходы',evidence:'Основания и проверка спроса',unknowns:'Что пока неизвестно'};
+const app = document.getElementById('app');
+function requireValue(ok, message) { if (!ok) throw new Error(message); }
+function object(value) { return value && typeof value === 'object' && !Array.isArray(value); }
+function strings(value, fields, section) {
+  requireValue(object(value), section + ': ожидается объект.');
+  for (const field of fields) requireValue(typeof value[field] === 'string', section + ': поле ' + field + ' должно быть текстом.');
+}
+function list(value, section) { requireValue(Array.isArray(value), section + ': ожидается список.'); }
+function textList(value, section) { list(value, section); requireValue(value.every(item => typeof item === 'string'), section + ': нужны строки.'); }
+function validate(d) {
+  requireValue(object(d) && d.version === 1, 'Неподдерживаемая версия данных.');
+  strings(d.meta,['title','segment','coreProduct','updated','status','scope'],'Описание карты');
+  list(d.offers,'Предложения'); requireValue(d.offers.length > 0,'Добавьте основной продукт.');
+  const ids = new Set();
+  for (const offer of d.offers) {
+    strings(offer,offerFields,'Предложение');
+    requireValue(offer.id.trim() && !ids.has(offer.id),'Идентификаторы предложений должны быть непустыми и уникальными.');
+    requireValue(Object.hasOwn(roles,offer.role),'Неизвестная роль предложения.'); ids.add(offer.id);
+  }
+  requireValue(d.offers.filter(o => o.role === 'core').length === 1,'Нужен ровно один основной продукт.');
+  list(d.roleDecisions,'Решения по ролям');
+  const roleIds = new Set();
+  for (const item of d.roleDecisions) {
+    strings(item,['role','decision','reason'],'Решение по роли');
+    requireValue(Object.hasOwn(roles,item.role) && !roleIds.has(item.role),'Неизвестная или повторяющаяся роль решения.'); roleIds.add(item.role);
+  }
+  list(d.transitions,'Переходы');
+  const roleById = new Map(d.offers.map(offer => [offer.id,offer.role]));
+  const branchRoles = {upgrade:['upsell'],complement:['cross-sell'],alternative:['downsell','tripwire']};
+  for (const item of d.transitions) {
+    strings(item,['from','to','kind','trigger','reason','action'],'Переход');
+    requireValue(ids.has(item.from) && ids.has(item.to) && item.from !== item.to,'Переход ссылается на отсутствующий продукт или на себя.');
+    requireValue(Object.hasOwn(kinds,item.kind),'Неизвестный вид перехода.');
+    if (Object.hasOwn(branchRoles,item.kind)) requireValue(branchRoles[item.kind].includes(roleById.get(item.to)),'Вид перехода не соответствует роли целевого предложения.');
+  }
+  requireValue(d.entryBrief === null || object(d.entryBrief),'Бриф должен быть объектом или null.');
+  if (d.entryBrief !== null) {
+    strings(d.entryBrief,briefFields,'Бриф входного предложения');
+    textList(d.entryBrief.outline,'Содержание брифа');
+    requireValue(ids.has(d.entryBrief.offerId),'Бриф ссылается на отсутствующее предложение.');
+  }
+  strings(d.test,['hypothesis','audience','action','period','decision'],'Ближайший тест');
+  textList(d.test.signals,'Сигналы теста'); textList(d.unknowns,'Неизвестное');
+  requireValue(typeof d.nextStep === 'string','Следующее действие должно быть текстом.');
+}
+function el(tag, text, className) { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; }
+function append(parent, ...nodes) { parent.append(...nodes); return parent; }
+function fact(label, value) { return append(el('div',undefined,'fact'),el('span',label,'label'),el('p',value)); }
+function definition(entries) { const dl = el('dl'); for (const [label,value] of entries) dl.append(el('dt',label),el('dd',value)); return dl; }
+function textItems(items, ordered = false) { const ul = el(ordered ? 'ol' : 'ul'); items.forEach(item => ul.append(el('li',item))); return ul; }
+function section(title, note) { const s = el('section',undefined,'section'); s.append(append(el('div',undefined,'section-head'),el('h2',title),el('span',note || '','section-note'))); return s; }
+function button(label, handler, className = 'action') { const b = el('button',label,className); b.type = 'button'; b.addEventListener('click',handler); return b; }
+function offerCard(offer) {
+  const card = el('article',undefined,'offer' + (offer.role === 'core' ? ' core' : '')); card.dataset.offerId = offer.id;
+  card.append(append(el('div',undefined,'offer-header'),el('span',roles[offer.role],'role'),el('h3',offer.name)));
+  card.append(fact('Для кого',offer.audience),fact('Результат клиента',offer.result),fact('Формат',offer.format));
+  card.append(append(el('div'),el('p',offer.price,'price'),el('p',offer.status + ' · ' + offer.priority,'offer-note')));
+  const details = el('details');
+  details.append(el('summary','Состав, ограничения и проверка'),definition(Object.entries(detailLabels).map(([key,label]) => [label,offer[key]])));
+  card.append(details); return card;
+}
+function readable(d) {
+  const parts = [d.meta.title,d.meta.segment,d.meta.status,'Основа: ' + d.meta.coreProduct];
+  for (const offer of d.offers) {
+    parts.push('\n' + roles[offer.role] + ': ' + offer.name,'Для кого: ' + offer.audience,'Результат: ' + offer.result,'Формат: ' + offer.format,'Цена: ' + offer.price,'Состояние: ' + offer.status,'Приоритет: ' + offer.priority);
+    Object.entries(detailLabels).forEach(([key,label]) => parts.push(label + ': ' + offer[key]));
+  }
+  const byId = new Map(d.offers.map(o => [o.id,o]));
+  for (const t of d.transitions) parts.push('\n' + kinds[t.kind] + ': ' + byId.get(t.from).name + ' → ' + byId.get(t.to).name,'Когда: ' + t.trigger,'Почему: ' + t.reason,'Действие: ' + t.action);
+  parts.push('\nРешения по ролям'); d.roleDecisions.forEach(r => parts.push(roles[r.role] + ': ' + r.decision + '. ' + r.reason));
+  if (d.entryBrief) {
+    parts.push('\nБриф входного предложения');
+    const labels = {title:'Название',recipient:'Для кого',problem:'Задача',result:'Результат',format:'Формат',rationale:'Почему подходит',outline:'Что внутри',sample:'Полезный пример',delivery:'Как получить',cta:'Приглашение дальше',check:'Как проверить'};
+    Object.entries(labels).forEach(([key,label]) => { const value = d.entryBrief[key]; parts.push(label + ': ' + (Array.isArray(value) ? value.join('\n') : value)); });
+  }
+  parts.push('\nБлижайший тест','Гипотеза: ' + d.test.hypothesis,'Для кого: ' + d.test.audience,'Действие: ' + d.test.action,...d.test.signals,'Срок: ' + d.test.period,'Решение: ' + d.test.decision,'\nЧто пока неизвестно',...d.unknowns,'\nСледующее действие: ' + d.nextStep);
+  return parts.join('\n');
+}
+function render(d) {
+  const fragment = document.createDocumentFragment();
+  const header = el('header'); header.append(el('p','Моя продуктовая линейка','eyebrow'),el('h1',d.meta.title),el('p',d.meta.segment,'intro'),el('span',d.meta.status,'status'));
+  header.append(append(el('div',undefined,'meta'),el('span','Обновлено: ' + d.meta.updated),el('span',d.meta.scope)));
+  header.append(append(el('div',undefined,'next'),el('span','Следующее действие','role'),el('p',d.nextStep)));
+  fragment.append(header);
+  const map = el('div'); map.dataset.view = 'map';
+  const tableView = el('div'); tableView.dataset.view = 'table'; tableView.hidden = true;
+  const mapButton = button('Карта',() => setView('map'),'');
+  const tableButton = button('Таблица',() => setView('table'),'');
+  function setView(view) { map.hidden = view !== 'map'; tableView.hidden = view !== 'table'; mapButton.setAttribute('aria-pressed',String(view === 'map')); tableButton.setAttribute('aria-pressed',String(view === 'table')); }
+  mapButton.setAttribute('aria-pressed','true'); tableButton.setAttribute('aria-pressed','false');
+  const copyStatus = el('p'); copyStatus.id = 'copy-status'; copyStatus.setAttribute('role','status'); copyStatus.setAttribute('aria-live','polite');
+  const fallback = el('div'); fallback.id = 'copy-fallback'; fallback.hidden = true;
+  const copyText = el('textarea'); copyText.readOnly = true; copyText.setAttribute('aria-label','Текст продуктовой линейки для копирования');
+  fallback.append(el('p','Текст выделен. Нажмите Ctrl+C или Cmd+C, чтобы скопировать вручную.'),copyText);
+  const copy = button('Копировать карту',async () => {
+    const value = readable(d);
+    try { if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable'); await navigator.clipboard.writeText(value); fallback.hidden = true; copyStatus.textContent = 'Карта скопирована.'; }
+    catch (_) { fallback.hidden = false; copyText.value = value; copyText.focus(); copyText.select(); copyStatus.textContent = 'Автоматическое копирование недоступно. Используйте выделенный текст.'; }
+  });
+  let printState = null;
+  function preparePrint() { if (printState) return; printState = [...app.querySelectorAll('details')].map(node => [node,node.open]); printState.forEach(([node]) => { node.open = true; }); }
+  window.addEventListener('beforeprint',preparePrint);
+  window.addEventListener('afterprint',() => { if (printState) printState.forEach(([node,open]) => { node.open = open; }); printState = null; });
+  const print = button('Печать / PDF',() => { preparePrint(); window.print(); });
+  fragment.append(append(el('nav',undefined,'toolbar'),append(el('div',undefined,'switch'),mapButton,tableButton),append(el('div',undefined,'actions'),copy,print)),copyStatus,fallback);
+  const mapSection = section('Предложения вокруг основного продукта','Каждая карточка решает свою задачу');
+  const cards = el('div',undefined,'offers');
+  const sorted = [...d.offers.filter(o => o.role === 'core'),...d.offers.filter(o => o.role !== 'core')]; sorted.forEach(o => cards.append(offerCard(o)));
+  mapSection.append(cards); map.append(mapSection);
+  if (d.transitions.length) {
+    const transitionSection = section('Когда предложить следующий шаг','Связи показывают выбор, а не обязательную очередь');
+    const links = el('div',undefined,'transitions'); const byId = new Map(d.offers.map(o => [o.id,o]));
+    for (const t of d.transitions) {
+      const link = el('article',undefined,'transition'); link.dataset.transitionKind = t.kind;
+      link.append(el('span',kinds[t.kind],'role'),el('h3',byId.get(t.from).name + ' → ' + byId.get(t.to).name),fact('Когда уместно',t.trigger),fact('Почему',t.reason),fact('Действие',t.action)); links.append(link);
+    }
+    transitionSection.append(links); map.append(transitionSection);
+  }
+  const tableSection = section('Матрица предложений','На узком экране таблица прокручивается внутри рамки');
+  const table = el('table'); table.append(el('caption','Роли, результаты и условия предложений'));
+  const head = el('thead'); const hr = el('tr'); ['Роль / предложение','Покупатель и результат','Формат и цена','Состояние / приоритет','Границы'].forEach(label => { const th = el('th',label); th.scope = 'col'; hr.append(th); }); head.append(hr); table.append(head);
+  const body = el('tbody');
+  for (const offer of sorted) {
+    const row = el('tr'); row.dataset.offerId = offer.id;
+    [[roles[offer.role],offer.name],[offer.audience,offer.result],[offer.format,offer.price],[offer.status,offer.priority],[offer.scope,offer.limits]].forEach(([first,second]) => row.append(append(el('td'),el('strong',first),el('p',second)))); body.append(row);
+  }
+  table.append(body); tableSection.append(append(el('div',undefined,'table-wrap'),table)); tableView.append(tableSection); fragment.append(map,tableView);
+  const decisions = section('Что используем сейчас','Отложенная роль не означает, что нужно создавать ещё один продукт');
+  const decisionList = el('ul',undefined,'decision-list');
+  d.roleDecisions.forEach(r => decisionList.append(append(el('li'),el('strong',roles[r.role] + ' · ' + r.decision),el('span',r.reason)))); decisions.append(decisionList); fragment.append(decisions);
+  const work = section('От карты к проверке','Замыслы становятся фактами только после реального опыта'); const panels = el('div',undefined,'panels');
+  if (d.entryBrief) {
+    const b = d.entryBrief; const brief = el('article',undefined,'panel wide'); brief.append(el('p','Входное предложение','eyebrow'),el('h3',b.title));
+    brief.append(definition([['Для кого',b.recipient],['Задача',b.problem],['Результат',b.result],['Формат',b.format],['Почему подходит',b.rationale]]),el('h3','Что внутри'),textItems(b.outline,true),definition([['Полезный пример',b.sample],['Как получить',b.delivery],['Приглашение дальше',b.cta],['Как проверить',b.check]])); panels.append(brief);
+  }
+  const test = el('article',undefined,'panel'); test.append(el('p','Один ближайший тест','eyebrow'),el('h3',d.test.hypothesis),definition([['Кому предложим',d.test.audience],['Что сделаем',d.test.action],['Срок проверки',d.test.period]]),el('h3','Наблюдаемые сигналы'),textItems(d.test.signals),definition([['Как примем решение',d.test.decision]]));
+  const unknown = el('article',undefined,'panel'); unknown.append(el('p','Границы уверенности','eyebrow'),el('h3','Что пока неизвестно')); unknown.append(d.unknowns.length ? textItems(d.unknowns) : el('p','Отдельные неизвестные пока не записаны. Это не подтверждает спрос.','small'));
+  panels.append(test,unknown); work.append(panels); fragment.append(work);
+  fragment.append(el('footer','Источник истины — knowledge/product-line.md. Эта страница показывает согласованные данные; карта не является доказательством спроса. Автономный файл, без внешних подключений.','footer'));
+  app.replaceChildren(fragment); app.hidden = false; document.getElementById('placeholder').hidden = true; document.title = 'Продуктовая линейка — ' + d.meta.title;
+}
+try {
+  const data = JSON.parse(document.getElementById('product-line-data').textContent);
+  if (data !== null) { validate(data); render(data); }
+} catch (error) {
+  app.hidden = true; app.replaceChildren(); document.getElementById('placeholder').hidden = true;
+  const notice = document.getElementById('error'); notice.textContent = 'Не удалось показать карту: ошибка данных. ' + error.message + ' Попросите агента пересобрать HTML из актуального product-line.md.'; notice.hidden = false;
+}
+})();
+</script>
+</body>
+</html>
