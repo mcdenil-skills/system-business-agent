@@ -47,3 +47,22 @@ jobs:
 
       - name: Проверить обновление устаревшего установщика
         run: bash tests/test-installer-refresh.sh
+
+      - name: Проверить пакет продуктовой линейки
+        run: bash tests/test-product-line.sh
+
+      - name: Проверить установку линейки в старую и новую версию агента
+        run: bash tests/test-product-line-installation.sh
+
+      - name: Установить Node для проверки автономного HTML
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Установить браузер только для проверки
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium
+
+      - name: Проверить HTML продуктовой линейки
+        run: node tests/check-product-line-html.cjs
